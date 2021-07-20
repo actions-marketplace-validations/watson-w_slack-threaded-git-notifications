@@ -49,7 +49,9 @@ const { generateRootMessage,
     });
 
   // update or generate root message on slack.
-  let rootMessage = result?.messages?.matches[0];
+  const { messages = { matches: []} } = result;
+  
+  let rootMessage = messages.matches[0];
 
   const slackRootMethod = Boolean(rootMessage) ? 'update' : 'sendMessage';
 
