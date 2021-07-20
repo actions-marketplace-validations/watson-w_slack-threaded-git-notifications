@@ -7,7 +7,7 @@ const { generateRootMessage,
 
 (async () => {
   const channel = getInput('channel');
-  const token = getInput('token');
+  const token = process.env.SLACK_BOT_TOKEN;
   const message = getInput('message');
   const ts = getInput('msg_id');
   const color = getInput('color');

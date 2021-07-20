@@ -16,17 +16,13 @@ If no thread exists, this action will create one, then reply to it.
 
 **Required** The channel ID for Git status reporting. This parameter takes president over `channel`
 
-### `token`
-
-**Required** The Slack Authentication Token.
-
 ### `message`
 
 **Required** The message to reply to the main thread.
 
 ### `message_id`
 
-***Optional** Message time stamp of a reply to update.
+**Optional** Message time stamp of a reply to update.
 
 ### `color`
 
@@ -40,9 +36,10 @@ The unique identifier associated with the newly posted message.
 
 ## Example usage
 
-uses: watson-w/slack-threaded-git-notifications@v0.1
+uses: watson-w/slack-threaded-git-notifications@v0.3
 with:
-  channel: ${{secrets.GIT_NOTIFICATION_CHANNEL}}
-  token: ${{secrets.SLACK_BOT_TOKEN}}
-  message: 'Executing End to End tests'
+  channel: git
+  message: Executing E2E tests
   color: warning
+env:
+  SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
