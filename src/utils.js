@@ -62,3 +62,7 @@ export const generateRootMessage = (channel, color = 'good', ts = Math.floor(Dat
       ]
     }
 }
+
+export const formatChannelName = (channel) => {
+  return channel.replace(/[#@]/g, '');
+}

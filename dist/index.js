@@ -13163,7 +13163,8 @@ function wrappy (fn, cb) {
 __nccwpck_require__.r(__webpack_exports__);
 /* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
 /* harmony export */   "generateReplyMessage": () => (/* binding */ generateReplyMessage),
-/* harmony export */   "generateRootMessage": () => (/* binding */ generateRootMessage)
+/* harmony export */   "generateRootMessage": () => (/* binding */ generateRootMessage),
+/* harmony export */   "formatChannelName": () => (/* binding */ formatChannelName)
 /* harmony export */ });
 const { context } = __nccwpck_require__(1311);
 
@@ -13228,6 +13229,10 @@ const generateRootMessage = (channel, color = 'good', ts = Math.floor(Date.now()
         },
       ]
     }
+}
+
+const formatChannelName = (channel) => {
+  return channel.replace(/[#@]/g, '');
 }
 
 /***/ }),
