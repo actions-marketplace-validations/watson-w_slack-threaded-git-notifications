@@ -1,0 +1,26 @@
+{
+  "name": "slack-threaded-git-notifications",
+  "version": "1.0.0",
+  "description": "Github action for threading Github status messages on a given channel.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "npx ncc build index.js --license licenses.txt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/watson-w/slack-threaded-git-notifications.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/watson-w/slack-threaded-git-notifications/issues"
+  },
+  "homepage": "https://github.com/watson-w/slack-threaded-git-notifications#readme",
+  "dependencies": {
+    "@actions/core": "^1.4.0",
+    "@actions/github": "^5.0.0",
+    "@slack/types": "^2.1.0",
+    "@slack/web-api": "^6.2.4"
+  }
+}

@@ -1,0 +1,30 @@
+name: 'Git Status Threads on Slack'
+description: 'Post slack status messages to a single thread in a given slack channel.'
+inputs:
+  token:
+    description: 'Auth token for Slack'
+    required: true
+  
+  channel:
+    description: 'Auth token for Slack'
+    required: true
+  
+  message:
+    description: 'The status message to be posted'
+    required: true
+
+  msg_id:
+    description: 'The timestamp ID of an existing message to update.'
+    required: false
+
+  color:
+    description: 'The color associated with the current status, is applied to the root message and the posted reply.'
+    required: true
+
+outputs:
+  message_id:
+    description: 'The timestamp ID of the posted reply.'
+
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
