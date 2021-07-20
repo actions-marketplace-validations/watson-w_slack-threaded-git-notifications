@@ -1,7 +1,9 @@
 name: 'Git Status Threads on Slack'
 description: 'Post slack status messages to a single thread in a given slack channel.'
-icon: 'alert-circle',
-color: '',
+branding:
+  icon: 'alert-circle'
+  color: 'yellow'
+
 inputs:
   token:
     description: 'Auth token for Slack'
