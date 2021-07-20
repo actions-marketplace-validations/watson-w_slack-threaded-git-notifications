@@ -12,11 +12,27 @@ const { generateRootMessage,
   const ts = getInput('msg_id');
   const color = getInput('color');
 
+  if (!channel && !core.getInput('channel_id')) {
+    core.setFailed(`You must provider either a 'channel' or a 'channel_id'.`);
+    return;
+  }
+
+  if (!message) {
+    core.setFailed(`You must specify a message`)
+  }
+
   const slack = new WebClient(token);
+
+  const channelId = core.getInput('channel_id') || (await lookUpChannelId({ slack, channel }));
+
+  if (!channelId) {
+    core.setFailed(`Slack channel ${channel} could not be found.`);
+    return;
+  }
 
   const predicate = `CICD Alerts for ${context.ref}`;
   const queryObject = {
-    channel,
+    channelId,
     text: predicate,
   }
   const searchArgs = {
@@ -54,3 +70,22 @@ const { generateRootMessage,
 
   setOutput('message_id', replyMessage.ts);
 })();
+
+
+async function lookUpChannelId({ slack, channel }) {
+  let result;
+  const formattedChannel = formatChannelName(channel);
+
+  // Async iteration is similar to a simple for loop.
+  // Use only the first two parameters to get an async iterator.
+  for await (const page of slack.paginate('conversations.list', { types: 'public_channel, private_channel' })) {
+    // You can inspect each page, find your result, and stop the loop with a `break` statement
+    const match = page.channels.find(c => c.name === formattedChannel);
+    if (match) {
+      result = match.id;
+      break;
+    }
+  }
+
+  return result;
+}

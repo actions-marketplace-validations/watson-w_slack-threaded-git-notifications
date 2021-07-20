@@ -1,28 +1,48 @@
-# threaded-git-status-notifications
+# slack-threaded-git-notifications
 
 # Reply to PR specific messaging for a given channel.
 
 This action queries the provided channel for a PR specific thread based on the branch name(`CICD Alerts for ${github.context.ref}`), then replies to the thread with the provided input.
 
+If no thread exists, this action will create one, then reply to it.
+
 ## Inputs
 
-### `Channel`
+### `channel`
 
-**Required** The channel to limit this search to.
+**Required** The channel name for Git status reporting
 
-### `Token`
+### `channel_id`
 
-**Required** The Slack Auth Token.
+**Required** The channel ID for Git status reporting. This parameter takes president over `channel`
+
+### `token`
+
+**Required** The Slack Authentication Token.
+
+### `message`
+
+**Required** The message to reply to the main thread.
+
+### `message_id`
+
+***Optional** Message time stamp of a reply to update.
+
+### `color`
+
+**Optional** RAG status of the current message. This color is applied to the root message as well.
 
 ## Outputs
 
-### `messageId`
+### `message_id`
 
-The Unique Identifier utilized as message UUID by `voxmedia/github-action-slack-notify-build@v1` 
+The unique identifier associated with the newly posted message.
 
 ## Example usage
 
-uses: actions/slack-threaded-git-notifications@v1.1
+uses: watson-w/slack-threaded-git-notifications@v0.1
 with:
-  Channel: ${{secrets.GIT_NOTIFICATION_CHANNEL}}
-  Token: ${{secrets.SLACK_BOT_TOKEN}}
+  channel: ${{secrets.GIT_NOTIFICATION_CHANNEL}}
+  token: ${{secrets.SLACK_BOT_TOKEN}}
+  message: 'Executing End to End tests'
+  color: warning

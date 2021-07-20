@@ -13,11 +13,15 @@ inputs:
     description: 'Auth token for Slack'
     required: true
   
+  channel_id:
+    description: 'The Slack channel ID. Required if no `channel` provided.'
+    required: false
+
   message:
     description: 'The status message to be posted'
     required: true
 
-  msg_id:
+  message_id:
     description: 'The timestamp ID of an existing message to update.'
     required: false
 
