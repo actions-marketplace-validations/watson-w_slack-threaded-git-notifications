@@ -12,21 +12,21 @@ const { generateRootMessage,
   const ts = getInput('msg_id');
   const color = getInput('color');
 
-  if (!channel && !core.getInput('channel_id')) {
-    core.setFailed(`You must provider either a 'channel' or a 'channel_id'.`);
+  if (!channel && !getInput('channel_id')) {
+    setFailed(`You must provider either a 'channel' or a 'channel_id'.`);
     return;
   }
 
   if (!message) {
-    core.setFailed(`You must specify a message`)
+    setFailed(`You must specify a message`)
   }
 
   const slack = new WebClient(token);
 
-  const channelId = core.getInput('channel_id') || (await lookUpChannelId({ slack, channel }));
+  const channelId = getInput('channel_id') || (await lookUpChannelId({ slack, channel }));
 
   if (!channelId) {
-    core.setFailed(`Slack channel ${channel} could not be found.`);
+    setFailed(`Slack channel ${channel} could not be found.`);
     return;
   }
 
@@ -50,7 +50,7 @@ const { generateRootMessage,
 
   // update or generate root message on slack.
   const { messages = { matches: []} } = result;
-  
+
   let rootMessage = messages.matches[0];
 
   const slackRootMethod = Boolean(rootMessage) ? 'update' : 'sendMessage';
