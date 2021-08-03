@@ -39,11 +39,8 @@ export const generateRootMessage = (channel, color = 'good', ts = Math.floor(Dat
           color,
           fields: [
             {
-              type: 'header',
-              text: {
-                type: 'plain_text',
-                text: `CICD Alerts for ${context.ref}`
-              }
+              type: 'plain_text',
+              text: 'CICD Alerts for ${context.ref}',
             },
             {
               title: 'Repo',
