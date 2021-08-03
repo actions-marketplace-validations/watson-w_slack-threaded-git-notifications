@@ -13529,7 +13529,7 @@ const { generateRootMessage,
 
   const slackRootMethod = Boolean(rootMessage) ? 'update' : 'sendMessage';
 
-  rootMessage = await slack.chat[slackRootMethod](generateRootMessage(channel, color, ts)).catch((err) => {
+  rootMessage = await slack.chat[`${slackRootMethod}`](generateRootMessage(channel, color, ts)).catch((err) => {
     debug('Slack chat API threw an error on root message:')
     debug(err);
     setFailed(`Slack chat API failure.`);
