@@ -3,7 +3,7 @@ const { getInput, debug,
 const { context } = require('@actions/github');
 const { WebClient } = require('@slack/web-api');
 const { generateRootMessage,
-  generateReplyMessage } = require('./src/utils');
+  generateReplyMessage, formatChannelName } = require('./src/utils');
 
 (async () => {
   const channel = getInput('channel');
