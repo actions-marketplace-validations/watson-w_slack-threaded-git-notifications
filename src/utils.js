@@ -1,7 +1,7 @@
 const { context } = require('@actions/github');
 
 export const generateReplyMessage = (channel, message, color = 'good', ts = Math.floor(Date.now() / 1000)) => {
-    const {owner, repo, payload} = context;
+    const {owner, repo} = context;
     return {
       ts,
       channel,
@@ -10,16 +10,9 @@ export const generateReplyMessage = (channel, message, color = 'good', ts = Math
           color,
           fields: [
             {
-              type: 'header',
-              text: {
-                type: 'plain_text',
-                text: message
-              }
-            },
-            {
-              title: 'Pull Request',
-              value: `<${payload.pull_request.html_url} | ${payload.pull_request.title}>`,
-              short: true,
+              title: 'Status:',
+              value: message,
+              color
             }
           ],
           footer_icon: 'https://github.githubassets.com/favicon.ico',
@@ -30,7 +23,8 @@ export const generateReplyMessage = (channel, message, color = 'good', ts = Math
 };
   
 export const generateRootMessage = (channel, color = 'good', ts = Math.floor(Date.now() / 1000)) => {
-    const {owner, repo, payload, ref } = context;
+    const {owner, repo, ref } = context;
+
     return {
       ts,
       channel,
