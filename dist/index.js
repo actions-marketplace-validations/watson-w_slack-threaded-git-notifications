@@ -13480,12 +13480,13 @@ const { generateRootMessage,
   generateReplyMessage, lookUpChannelId } = __nccwpck_require__(8139);
 
 (async () => {
-  const channel = getInput('channel');
-  const token = process.env.SLACK_BOT_TOKEN;
-  const message = getInput('message');
-  const ts = getInput('msg_id');
-  const color = getInput('color');
+  const channel = getInput('channel'); // channel to post to
+  const token = process.env.SLACK_BOT_TOKEN; // slack bock token
+  const message = getInput('message'); // Text to send in message
+  const ts = getInput('msg_id'); // ID of the message to update
+  const color = getInput('color'); // Current status of the check
 
+  // validate input
   if (!channel && !getInput('channel_id')) {
     setFailed(`You must provider either a 'channel' or a 'channel_id'.`);
     return;
@@ -13495,8 +13496,10 @@ const { generateRootMessage,
     setFailed(`You must specify a message`)
   }
 
+  // initialize slack utility
   const slack = new WebClient(token);
 
+  // obtain slack channel ID
   const channelId = getInput('channel_id') || (await lookUpChannelId({ slack, channel }));
 
   if (!channelId) {
@@ -13504,6 +13507,7 @@ const { generateRootMessage,
     return;
   }
 
+  // define search parameters for root messages.
   const predicate = `CICD Alerts for ${context.ref}`;
   const queryObject = {
     channelId,
@@ -13515,6 +13519,7 @@ const { generateRootMessage,
     sortDir: 'asc'
   }
 
+  // search for root message.
   const result = await slack.search.messages(searchArgs)
     .catch((err) => {
       debug('Slack search API threw an error:')
@@ -13527,7 +13532,7 @@ const { generateRootMessage,
 
   let rootMessage = matches[0];
 
-  if(rootMethod) {
+  if(rootMessage) {
     rootMessage = await slack.chat.update(generateRootMessage(channel, color, ts)).catch((err) => {
       debug('Slack chat API threw an error on root message:')
       debug(err);
@@ -13542,13 +13547,20 @@ const { generateRootMessage,
   }
 
   // update or generate reply message on slack
-  const slackReplyMethod = Boolean(ts) ? 'update' : 'sendMessage';
-  
-  const replyMessage = await slack.chat[slackReplyMethod](generateReplyMessage(channel, message, color, rootMessage.ts)).catch((err) => {
-    debug('Slack chat API threw an error on reply message:')
-    debug(err);
-    setFailed(`Slack chat API failure.`);
-  });
+  let replyMessage;
+  if(Boolean(ts)) {
+    replyMessage = await slack.chat.update(generateReplyMessage(channel, message, color, rootMessage.ts)).catch((err) => {
+      debug('Slack chat API threw an error on reply message:')
+      debug(err);
+      setFailed(`Slack chat API failure.`);
+    });
+  } else {
+    replyMessage = await slack.chat.sendMessage(generateReplyMessage(channel, message, color, rootMessage.ts)).catch((err) => {
+      debug('Slack chat API threw an error on reply message:')
+      debug(err);
+      setFailed(`Slack chat API failure.`);
+    });
+  }
 
   setOutput('message_id', replyMessage.ts);
 })();
