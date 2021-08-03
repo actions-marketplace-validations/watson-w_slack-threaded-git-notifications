@@ -63,13 +63,9 @@ export const generateRootMessage = (channel, color = 'good', ts = Math.floor(Dat
     }
 }
 
-export const formatChannelName = (channel) => {
-  return channel.replace(/[#@]/g, '');
-}
-
 export const lookUpChannelId = ({ slack, channel }) => {
   let result;
-  const formattedChannel = formatChannelName(channel);
+  const formattedChannel = channel.replace(/[#@]/g, '');
 
   // Async iteration is similar to a simple for loop.
   // Use only the first two parameters to get an async iterator.
