@@ -13164,7 +13164,7 @@ __nccwpck_require__.r(__webpack_exports__);
 /* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
 /* harmony export */   "generateReplyMessage": () => (/* binding */ generateReplyMessage),
 /* harmony export */   "generateRootMessage": () => (/* binding */ generateRootMessage),
-/* harmony export */   "channelId": () => (/* binding */ channelId)
+/* harmony export */   "lookUpChannelId": () => (/* binding */ lookUpChannelId)
 /* harmony export */ });
 const { context } = __nccwpck_require__(1311);
 
@@ -13231,7 +13231,7 @@ const generateRootMessage = (channel, color = 'good', ts = Math.floor(Date.now()
     }
 }
 
-const channelId = async function({ slack, channel }) {
+const lookUpChannelId = async function({ slack, channel }) {
   let result;
   const formattedChannel = channel.replace(/[#@]/g, '');
 
