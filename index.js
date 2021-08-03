@@ -53,13 +53,19 @@ const { generateRootMessage,
 
   let rootMessage = matches[0];
 
-  const slackMethod = rootMessage ? 'update' : 'sendMessage';
-
-  rootMessage = await slack.chat[slackMethod](generateRootMessage(channel, color, ts)).catch((err) => {
-    debug('Slack chat API threw an error on root message:')
-    debug(err);
-    setFailed(`Slack chat API failure.`);
-  });
+  if(rootMethod) {
+    rootMessage = await slack.chat.update(generateRootMessage(channel, color, ts)).catch((err) => {
+      debug('Slack chat API threw an error on root message:')
+      debug(err);
+      setFailed(`Slack chat API failure.`);
+    });
+  } else {
+    rootMessage = await slack.chat.sendMessage(generateRootMessage(channel, color, ts)).catch((err) => {
+      debug('Slack chat API threw an error on root message:')
+      debug(err);
+      setFailed(`Slack chat API failure.`);
+    });
+  }
 
   // update or generate reply message on slack
   const slackReplyMethod = Boolean(ts) ? 'update' : 'sendMessage';
