@@ -13164,7 +13164,7 @@ __nccwpck_require__.r(__webpack_exports__);
 /* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
 /* harmony export */   "generateReplyMessage": () => (/* binding */ generateReplyMessage),
 /* harmony export */   "generateRootMessage": () => (/* binding */ generateRootMessage),
-/* harmony export */   "lookUpChannelId": () => (/* binding */ lookUpChannelId)
+/* harmony export */   "channelId": () => (/* binding */ channelId)
 /* harmony export */ });
 const { context } = __nccwpck_require__(1311);
 
@@ -13231,7 +13231,7 @@ const generateRootMessage = (channel, color = 'good', ts = Math.floor(Date.now()
     }
 }
 
-const lookUpChannelId = async function({ slack, channel }) {
+const channelId = async function({ slack, channel }) {
   let result;
   const formattedChannel = channel.replace(/[#@]/g, '');
 
@@ -13523,9 +13523,9 @@ const { generateRootMessage,
     });
 
   // update or generate root message on slack.
-  const { messages = { matches: []} } = result;
+  const { matches = [] } = result?.messages || {};
 
-  let rootMessage = messages.matches[0];
+  let rootMessage = matches[0];
 
   const slackRootMethod = Boolean(rootMessage) ? 'update' : 'sendMessage';
 
