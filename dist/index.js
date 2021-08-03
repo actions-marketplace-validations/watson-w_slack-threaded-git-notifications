@@ -13523,7 +13523,7 @@ const { generateRootMessage,
     });
 
   // update or generate root message on slack.
-  const { matches = [] } = result.messages || {};
+  const { matches = [] } = result && result.messages || {};
 
   let rootMessage = matches[0];
 
