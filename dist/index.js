@@ -13539,7 +13539,7 @@ const { generateRootMessage,
       setFailed(`Slack chat API failure.`);
     });
   } else {
-    rootMessage = await slack.chat.sendMessage(generateRootMessage(channel, color, ts)).catch((err) => {
+    rootMessage = await slack.chat.postMessage(generateRootMessage(channel, color, ts)).catch((err) => {
       debug('Slack chat API threw an error on root message:')
       debug(err);
       setFailed(`Slack chat API failure.`);
@@ -13555,7 +13555,7 @@ const { generateRootMessage,
       setFailed(`Slack chat API failure.`);
     });
   } else {
-    replyMessage = await slack.chat.sendMessage(generateReplyMessage(channel, message, color, rootMessage.ts)).catch((err) => {
+    replyMessage = await slack.chat.postMessage(generateReplyMessage(channel, message, color, rootMessage.ts)).catch((err) => {
       debug('Slack chat API threw an error on reply message:')
       debug(err);
       setFailed(`Slack chat API failure.`);
