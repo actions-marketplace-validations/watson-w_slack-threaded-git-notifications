@@ -50,7 +50,7 @@ const { generateRootMessage,
     .catch((err) => {
       debug('Slack search API threw an error:')
       debug(err);
-      setFailed(`Slack search API failure.`);
+      setFailed(err);
     });
 
   // update or generate root message on slack.
