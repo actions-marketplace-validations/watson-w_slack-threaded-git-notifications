@@ -13198,7 +13198,7 @@ const generateReplyMessage = (channel, message, color = 'good', ts = Math.floor(
 };
   
 const generateRootMessage = (channel, color = 'good', ts = Math.floor(Date.now() / 1000)) => {
-    const {owner, repo, payload } = context;
+    const {owner, repo, payload, ref } = context;
     return {
       ts,
       channel,
@@ -13207,17 +13207,8 @@ const generateRootMessage = (channel, color = 'good', ts = Math.floor(Date.now()
           color,
           fields: [
             {
-              type: 'plain_text',
-              text: 'CICD Alerts for ${context.ref}',
-            },
-            {
-              title: 'Repo',
+              title: `CICD Alerts for ${ref}`,
               value: `<https://github.com/${owner}/${repo} | ${owner}/${repo}>`,
-              short: true,
-            },
-            {
-              title: 'Pull Request',
-              value: `<${payload.pull_request.html_url} | ${payload.pull_request.title}>`,
               short: true,
             }
           ],
