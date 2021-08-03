@@ -63,7 +63,7 @@ export const generateRootMessage = (channel, color = 'good', ts = Math.floor(Dat
     }
 }
 
-export const lookUpChannelId = ({ slack, channel }) => {
+export const channelId = async function({ slack, channel }) {
   let result;
   const formattedChannel = channel.replace(/[#@]/g, '');
 

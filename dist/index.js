@@ -13164,7 +13164,7 @@ __nccwpck_require__.r(__webpack_exports__);
 /* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
 /* harmony export */   "generateReplyMessage": () => (/* binding */ generateReplyMessage),
 /* harmony export */   "generateRootMessage": () => (/* binding */ generateRootMessage),
-/* harmony export */   "formatChannelName": () => (/* binding */ formatChannelName)
+/* harmony export */   "channelId": () => (/* binding */ channelId)
 /* harmony export */ });
 const { context } = __nccwpck_require__(1311);
 
@@ -13231,8 +13231,22 @@ const generateRootMessage = (channel, color = 'good', ts = Math.floor(Date.now()
     }
 }
 
-const formatChannelName = (channel) => {
-  return channel.replace(/[#@]/g, '');
+const channelId = async function({ slack, channel }) {
+  let result;
+  const formattedChannel = channel.replace(/[#@]/g, '');
+
+  // Async iteration is similar to a simple for loop.
+  // Use only the first two parameters to get an async iterator.
+  for await (const page of slack.paginate('conversations.list', { types: 'public_channel, private_channel' })) {
+    // You can inspect each page, find your result, and stop the loop with a `break` statement
+    const match = page.channels.find(c => c.name === formattedChannel);
+    if (match) {
+      result = match.id;
+      break;
+    }
+  }
+
+  return result;
 }
 
 /***/ }),
@@ -13463,7 +13477,7 @@ const { getInput, debug,
 const { context } = __nccwpck_require__(1311);
 const { WebClient } = __nccwpck_require__(6041);
 const { generateRootMessage,
-  generateReplyMessage } = __nccwpck_require__(8139);
+  generateReplyMessage, lookUpChannelId } = __nccwpck_require__(8139);
 
 (async () => {
   const channel = getInput('channel');
@@ -13533,24 +13547,6 @@ const { generateRootMessage,
   setOutput('message_id', replyMessage.ts);
 })();
 
-
-async function lookUpChannelId({ slack, channel }) {
-  let result;
-  const formattedChannel = formatChannelName(channel);
-
-  // Async iteration is similar to a simple for loop.
-  // Use only the first two parameters to get an async iterator.
-  for await (const page of slack.paginate('conversations.list', { types: 'public_channel, private_channel' })) {
-    // You can inspect each page, find your result, and stop the loop with a `break` statement
-    const match = page.channels.find(c => c.name === formattedChannel);
-    if (match) {
-      result = match.id;
-      break;
-    }
-  }
-
-  return result;
-}
 
 })();
 
